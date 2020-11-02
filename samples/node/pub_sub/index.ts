@@ -123,7 +123,7 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
             for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
                 const publish = async () => {
                     const msg = {
-                        message: generatePayload(),
+                        message: generatePayload(op_idx + 1),
                         sequence: op_idx + 1,
                     };
                     const json = JSON.stringify(msg);
@@ -184,10 +184,10 @@ async function main(argv: Args) {
     clearTimeout(timer);
 }
 
-async function generatePayload() {
+async function generatePayload(count: number) {
     return {
         event: "info",
-        message_count: 1,
+        message_count: count,
         sensor_id: 'Movesense ' + Math.floor(Math.random() * Math.floor(16)),
         sensor_value: {
             movement: Math.random() + Math.random() * (10 - 5) + 5, // The movement value between 5 and 10
