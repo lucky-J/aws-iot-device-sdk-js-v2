@@ -121,7 +121,7 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
             for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
                 const publish = async () => {
                     const msg = {
-                        message: generatePayload(op_idx + 1),
+                        message: await generatePayload(op_idx + 1),
                         sequence: op_idx + 1,
                     };
                     const json = JSON.stringify(msg);
