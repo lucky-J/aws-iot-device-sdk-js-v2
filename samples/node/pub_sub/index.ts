@@ -123,7 +123,7 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
             for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
                 const publish = async () => {
                     const msg = {
-                        message: argv.message,
+                        message: generatePayload(),
                         sequence: op_idx + 1,
                     };
                     const json = JSON.stringify(msg);
@@ -182,4 +182,17 @@ async function main(argv: Args) {
 
     // Allow node to die if the promise above resolved
     clearTimeout(timer);
+}
+
+async function generatePayload() {
+    return {
+        event: "info",
+        message_count: 1,
+        sensor_id: 'Movesense ' + Math.floor(Math.random() * Math.floor(16)),
+        sensor_value: {
+            movement: Math.random() + Math.random() * (10 - 5) + 5, // The movement value between 5 and 10
+            heart_rate: Math.random() + Math.random() * (150 - 60) + 60 // value between 60 and 150
+        },
+        transmitter_hub_sn: 'libfytest10000000a7fc47b0'
+    }
 }
