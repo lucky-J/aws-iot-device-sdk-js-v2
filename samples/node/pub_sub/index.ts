@@ -109,8 +109,8 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
             const on_publish = async (topic: string, payload: object) => {
                 const json = JSON.stringify(payload);
                 console.log(`Publish received on topic ${topic}`);
-                console.log(json);
                 const message = JSON.parse(json);
+                console.log(message.message);
                 if (message.sequence == argv.count) {
                     resolve();
                 }
