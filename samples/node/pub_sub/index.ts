@@ -110,7 +110,6 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                 const json = JSON.stringify(payload);
                 console.log(`Publish received on topic ${topic}`);
                 const message = JSON.parse(json);
-                console.log(message.message);
                 if (message.sequence == argv.count) {
                     resolve();
                 }
@@ -125,6 +124,7 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                         sequence: op_idx + 1,
                     };
                     const json = JSON.stringify(msg);
+                    console.log(json);
                     connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
                 }
                 setTimeout(publish, op_idx * 1000);
@@ -186,11 +186,11 @@ async function generatePayload(count: number) {
     return {
         event: "info",
         message_count: count,
-        sensor_id: 'Movesense ' + Math.floor(Math.random() * Math.floor(16)),
+        sensor_id: "Movesense " + Math.floor(Math.random() * Math.floor(16)),
         sensor_value: {
             movement: Math.random() + Math.random() * (10 - 5) + 5, // The movement value between 5 and 10
             heart_rate: Math.random() + Math.random() * (150 - 60) + 60 // value between 60 and 150
         },
-        transmitter_hub_sn: 'libfytest10000000a7fc47b0'
+        transmitter_hub_sn: "libfytest10000000a7fc47b0"
     }
 }
